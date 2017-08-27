@@ -47,6 +47,7 @@ class REST {
 
   reportAuthCode(code, { phone } = {}) {
     return this.request('post', '/auth/report_code', {
+      auth: false,
       data: {
         device_id: this.client.info.deviceId,
         phone_number: phone || this.client.info.phone,

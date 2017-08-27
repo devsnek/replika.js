@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "dependencies": {
+    "config.js": "github:devsnek/config.js",
     "snekfetch": "^3.2.9",
     "ws": "^3.1.0"
   },
