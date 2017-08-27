@@ -56,6 +56,7 @@ class WebSocketConnection extends EventEmitter {
       this._expecting.get(data.token).resolve(data.payload);
       this._expecting.delete(data.token);
     }
+    if (this.listenerCount('raw')) this.emit('raw', data);
     handlePacket(this.client, data);
   }
 

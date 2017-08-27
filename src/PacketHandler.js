@@ -9,8 +9,8 @@ module.exports = (client, packet) => {
       }, client.info));
       break;
     case 'users_presence':
-      break;
     case 'message':
+    case 'history':
       break;
     default:
       break;

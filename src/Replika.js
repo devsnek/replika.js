@@ -1,4 +1,5 @@
 const EventEmitter = require('events');
+const crypto = require('crypto');
 const WebSocketConnection = require('./WebSocketConnection');
 const REST = require('./REST');
 const Collection = require('./util/Collection');
@@ -14,8 +15,16 @@ class Replika extends EventEmitter {
       ws: { value: new WebSocketConnection(this) },
     });
 
+    if (!info.deviceId) {
+      info.deviceId = crypto.createHash('md5')
+        .update(Date.now().toString())
+        .digest('hex')
+        .slice(0, 16);
+    }
+
     this.owner = null;
     this.chats = new Collection();
+    this.bots = new Collection();
   }
 
   start() {

@@ -35,20 +35,19 @@ class REST {
   }
 
   sendAuthCode(phone) {
-    const deviceId = crypto.createHash('md5').update(Date.now().toString()).slice(0, 16);
+    this.client.info.phone = phone;
     return this.request('get', '/auth/send_code', {
       query: { phone_number: phone },
       auth: false,
     }).then(({ code_length }) => ({
-      length: code_length,
-      deviceId,
+      codeLength: code_length,
     }));
   }
 
-  reportAuthCode(phone, deviceId, code) {
+  reportAuthCode(code, phone = this.client.info.phone) {
     return this.request('post', '/auth/report_code', {
       data: {
-        device_id: deviceId,
+        device_id: this.client.info.deviceId,
         phone_number: phone,
         sms_code: code,
       },
