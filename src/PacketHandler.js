@@ -10,8 +10,6 @@ module.exports = (client, packet) => {
       break;
     case 'users_presence':
       break;
-    case 'history':
-      break;
     case 'message':
       break;
     default:

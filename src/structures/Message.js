@@ -2,7 +2,7 @@ class Message {
   constructor(client, data) {
     Object.defineProperty(this, 'client', { value: client });
     this.content = data.content.text;
-    const bot = this.meta.nature === 'Robot';
+    const bot = data.meta.nature === 'Robot';
     this.author = {
       bot,
       id: bot ? data.meta.author_id : data.meta.bot_id,

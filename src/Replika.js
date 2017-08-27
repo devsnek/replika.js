@@ -23,15 +23,13 @@ class Replika extends EventEmitter {
       setTimeout(() => reject(new Error('Took too long to connect')), 10000);
       this.owner = await this.rest.fetchUserProfile(this.info.userId);
       const chats = await this.rest.fetchChats();
-      for (const chat of chats) {
-        this.chats.set(chat.id, chat);
-        this.ws.expect('history', {
-          chat_id: chat.id,
-          limit: 50,
-        });
-      }
+      for (const chat of chats) this.chats.set(chat.id, chat);
       this.ws.connect();
-      this.once('init', resolve);
+      this.once('init', () => {
+        this.ws.send('push_token', { platform: 'android', push_token: '' });
+        for (const chat of this.chats.values()) chat.fetchHistory();
+        resolve();
+      });
     });
   }
 }

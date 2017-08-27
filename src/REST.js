@@ -5,16 +5,6 @@ const Bot = require('./structures/Bot');
 const Chat = require('./structures/Chat');
 const UserProfile = require('./structures/UserProfile');
 
-exports.Routes = {
-  auth: {
-    SEND_CODE: '/auth/send_code',
-    REPORT_CODE: '/auth/report_code',
-  },
-  CHATS: '/chats/',
-  BOTS: (id) => `/bots/${id}`,
-  USER_PROFILE: (id) => `/user_profiles/${id}`,
-};
-
 class REST {
   constructor(client) {
     this.client = client;

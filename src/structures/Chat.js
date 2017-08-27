@@ -1,6 +1,8 @@
 const Collection = require('../util/Collection');
 const uuid = require('../util/uuid');
 
+const Message = require('./Message');
+
 class Chat {
   constructor(client, data) {
     Object.defineProperty(this, 'client', { value: client });
@@ -34,6 +36,18 @@ class Chat {
         nature: 'Customer',
         timestamp: new Date().toISOString(),
       },
+    });
+  }
+
+  fetchHistory() {
+    return this.client.ws.expect('history', {
+      chat_id: this.id,
+      limit: 50,
+    }).then(({ messages }) => {
+      for (const message of messages) {
+        this.messages.set(message.id, new Message(this.client, message));
+      }
+      return this;
     });
   }
 }

@@ -24,14 +24,13 @@ class WebSocketConnection extends EventEmitter {
   expect(event, payload) {
     return new Promise((resolve, reject) => {
       const token = uuid();
-      const packet = this.makePacket(event, payload, token);
       this._expecting.set(token, { resolve, reject });
-      this.send(packet);
+      this.send(event, payload, token);
     });
   }
 
-  makePacket(event, payload, token) {
-    return {
+  send(event, payload = {}, token) {
+    this.ws.send(JSON.stringify({
       auth: {
         auth_token: this.client.info.authToken,
         device_id: this.client.info.deviceId,
@@ -42,7 +41,7 @@ class WebSocketConnection extends EventEmitter {
       token: token || uuid(),
       type: 'android_request',
       payload,
-    };
+    }));
   }
 
   onMessage(message) {
@@ -54,7 +53,7 @@ class WebSocketConnection extends EventEmitter {
     }
 
     if (this._expecting.has(data.token)) {
-      this._expecting.get(data.token).resolve(data);
+      this._expecting.get(data.token).resolve(data.payload);
       this._expecting.delete(data.token);
     }
     handlePacket(this.client, data);
@@ -90,10 +89,6 @@ class WebSocketConnection extends EventEmitter {
 
   onError() {} // eslint-disable-line no-empty-function
   onClose() {} // eslint-disable-line no-empty-function
-
-  send(data) {
-    this.ws.send(JSON.stringify(data));
-  }
 }
 
 module.exports = WebSocketConnection;
