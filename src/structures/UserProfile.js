@@ -9,6 +9,9 @@ class UserProfile {
     this.name = {
       first: data.first_name,
       last: data.last_name,
+      toString() {
+        return `${this.first} ${this.last}`;
+      },
     };
     this.phone = data.phone_number;
     this.availableInvites = data.available_invites;
@@ -20,7 +23,7 @@ class UserProfile {
 
   inspect() {
     return `UserProfile {
-  Name: ${this.name.first} ${this.name.last} (${this.id})
+  Name: ${this.name} (${this.id})
   Presence: ${this.presence.online ? 'online' : 'offline'} (Last seen ${this.presence.wentOffline})
 }`;
   }

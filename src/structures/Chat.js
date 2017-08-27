@@ -51,6 +51,14 @@ class Chat {
       return this;
     });
   }
+
+  inspect() {
+    return `Chat {
+  ID: ${this.id}
+  Mode: ${this.mode}
+  Created At: ${this.createdAt}
+}`;
+  }
 }
 
 module.exports = Chat;
