@@ -14,7 +14,7 @@ class REST {
     const req = snekfetch[method](`${Constants.API}${path}`)
       .set({
         'X-Device': Constants.DEVICE,
-        'X-Os-Version': Constants.ANDROID_VERSION,
+        'X-Os-Version': Constants.PLATFORM_VERSION,
         'X-App-Version': Constants.APP_VERSION,
         'User-Agent': 'okhttp/3.8.0',
       });
@@ -41,14 +41,15 @@ class REST {
       auth: false,
     }).then(({ code_length }) => ({
       codeLength: code_length,
+      deviceId: this.client.info.deviceId,
     }));
   }
 
-  reportAuthCode(code, phone = this.client.info.phone) {
+  reportAuthCode(code, { phone } = {}) {
     return this.request('post', '/auth/report_code', {
       data: {
         device_id: this.client.info.deviceId,
-        phone_number: phone,
+        phone_number: phone || this.client.info.phone,
         sms_code: code,
       },
     });

@@ -68,13 +68,13 @@ class WebSocketConnection extends EventEmitter {
   init() {
     return this.expect('init', {
       app_bundle_id: 'ai.replika.app',
-      app_version: '1069',
-      app_version_short: '1.0.69',
+      app_version: Constants.APP_VERSION.replace(/\./g, ''),
+      app_version_short: Constants.APP_VERSION,
       auth_token: this.client.info.authToken,
       device: Constants.DEVICE,
       device_id: this.client.info.deviceId,
-      platform: 'android',
-      platform_version: Constants.ANDROID_VERSION,
+      platform: Constants.PLATFORM_NAME,
+      platform_version: Constants.PLATFORM_VERSION,
       session_id: this.client.info.sessionId,
       time_zone: new Date().toISOString(),
       capabilities: [

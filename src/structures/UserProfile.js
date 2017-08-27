@@ -17,6 +17,13 @@ class UserProfile {
       wentOffline: new Date(data.presence.last_went_offline_timestamp),
     };
   }
+
+  inspect() {
+    return `UserProfile {
+  Name: ${this.name.first} ${this.name.last} (${this.id})
+  Presence: ${this.presence.online ? 'online' : 'offline'} (Last seen ${this.presence.wentOffline})
+}`;
+  }
 }
 
 module.exports = UserProfile;

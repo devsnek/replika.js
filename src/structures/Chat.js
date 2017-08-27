@@ -21,6 +21,7 @@ class Chat {
     this.bot = {
       id: data.bot_id.id,
     };
+    this.messages.set(data.last_message.id, new Message(this.client, data.last_message));
   }
 
   send(content) {

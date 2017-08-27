@@ -19,24 +19,32 @@ class Bot {
     this.stats = {
       score: data.stats.score,
       current: {
-        name: this.stats.current_level.name,
-        description: this.stats.current_level.description,
-        milestone: this.stats.current_level.score_milestone,
-        level: this.stats.current_level.level_index,
+        name: data.stats.current_level.name,
+        description: data.stats.current_level.description,
+        milestone: data.stats.current_level.score_milestone,
+        level: data.stats.current_level.level_index,
       },
       next: {
-        name: this.stats.next_level.name,
-        description: this.stats.next_level.description,
-        milestone: this.stats.next_level.score_milestone,
-        level: this.stats.next_level.level_index,
+        name: data.stats.next_level.name,
+        description: data.stats.next_level.description,
+        milestone: data.stats.next_level.score_milestone,
+        level: data.stats.next_level.level_index,
       },
     };
 
-    this._ownerCache = data.owner_profile;
+    this.ownerId = data.owner_profile.id;
   }
 
   get owner() {
-    return this.client.owner || this._ownerCache;
+    return this.client.users.get(this.ownerId);
+  }
+
+  inspect() {
+    return `Bot {
+  Name: ${this.name} (${this.id})
+  Score: ${this.stats.score}
+  Level: ${this.stats.current.level} (${this.stats.current.name})
+}`;
   }
 }
 
